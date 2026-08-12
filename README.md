@@ -39,3 +39,5 @@ npx wrangler pages dev . --d1 DB=jeniffer-leads
 O formulário só registra dados quando o binding `DB` estiver configurado.
 
 *Atualização de Publicação*
+
+Deploy após reconexão do Cloudflare.
