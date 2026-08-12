@@ -1,0 +1,9 @@
+name = "jeniffer-correia-psicologia"
+compatibility_date = "2026-08-01"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "jeniffer-leads"
+database_id = "COLE_AQUI_O_ID_DO_D1"
+

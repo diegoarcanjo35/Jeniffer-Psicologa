@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jenifferpsi.elevesites.com.br/sitemap.xml
+
