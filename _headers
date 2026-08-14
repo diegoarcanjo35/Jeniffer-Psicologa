@@ -7,8 +7,27 @@
   Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo=' 'sha256-E3QCi5aBeBTFHK/4EVvswMnW+4EvPVzm1CMLL/HJLLU=' 'sha256-UOtt+k+oK1ZU1k2fed7a/yvO7Q1DlkPp8AwJVi8FOrs='; connect-src 'self'; font-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
-/assets/*
+# Fotos e fontes: nome novo a cada troca, então podem ser eternos.
+/assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+# CSS, JS, favicon e card social mantêm o nome entre versões. As páginas os
+# chamam com ?v=<hash>, mas este cache curto é a rede de segurança para o caso
+# de alguém editar o arquivo sem regerar o HTML.
+/assets/*.css
+  Cache-Control: public, max-age=600, must-revalidate
+
+/assets/*.js
+  Cache-Control: public, max-age=600, must-revalidate
+
+/assets/*.svg
+  Cache-Control: public, max-age=600, must-revalidate
+
+/assets/*.jpg
+  Cache-Control: public, max-age=600, must-revalidate
 
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
