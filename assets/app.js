@@ -1,68 +1,133 @@
-const menuButton = document.querySelector('[data-menu-button]');
-const nav = document.querySelector('[data-nav]');
+/* =========================================================
+   Jeniffer Correia Psicologia — comportamento do site
+   ========================================================= */
+(function () {
+  'use strict';
 
-menuButton?.addEventListener('click', () => {
-  const open = menuButton.getAttribute('aria-expanded') === 'true';
-  menuButton.setAttribute('aria-expanded', String(!open));
-  nav?.classList.toggle('is-open', !open);
-});
+  /* ---------- Menu mobile ---------- */
+  var menuButton = document.querySelector('[data-menu-button]');
+  var nav = document.querySelector('[data-nav]');
+  var backdrop = document.querySelector('[data-nav-backdrop]');
 
-nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-  menuButton?.setAttribute('aria-expanded', 'false');
-  nav.classList.remove('is-open');
-}));
-
-const phone = document.querySelector('#whatsapp');
-phone?.addEventListener('input', (event) => {
-  const digits = event.target.value.replace(/\D/g, '').slice(0, 11);
-  let value = digits;
-  if (digits.length > 2) value = `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-  if (digits.length > 7) value = `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
-  event.target.value = value;
-});
-
-const form = document.querySelector('#lead-form');
-const feedback = document.querySelector('#form-feedback');
-
-form?.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  if (!form.reportValidity()) return;
-
-  const button = form.querySelector('button[type="submit"]');
-  const data = new FormData(form);
-  const payload = Object.fromEntries(data.entries());
-  payload.horarios = data.getAll('horarios');
-  payload.consentimento = data.get('consentimento') === 'on';
-  button.disabled = true;
-  button.textContent = 'Enviando…';
-  feedback.textContent = '';
-  feedback.className = 'form-feedback';
-
-  try {
-    const response = await fetch('/api/leads', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.message);
-    form.reset();
-    feedback.textContent = result.message;
-    feedback.classList.add('success');
-  } catch (error) {
-    feedback.textContent = error.message || 'Não foi possível enviar. Tente novamente.';
-    feedback.classList.add('error');
-  } finally {
-    button.disabled = false;
-    button.textContent = 'Enviar meu contato';
+  function setMenu(open) {
+    if (!menuButton || !nav) return;
+    menuButton.setAttribute('aria-expanded', String(open));
+    nav.classList.toggle('is-open', open);
+    if (backdrop) backdrop.classList.toggle('is-open', open);
+    document.body.classList.toggle('nav-open', open);
   }
-});
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
-  });
-}, { threshold: 0.14 });
+  if (menuButton && nav) {
+    menuButton.addEventListener('click', function () {
+      setMenu(menuButton.getAttribute('aria-expanded') !== 'true');
+    });
 
-document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () { setMenu(false); });
+    });
 
+    if (backdrop) backdrop.addEventListener('click', function () { setMenu(false); });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+        setMenu(false);
+        menuButton.focus();
+      }
+    });
+
+    // Ao girar o aparelho ou passar para desktop, o menu volta ao estado neutro.
+    var desktop = window.matchMedia('(min-width: 900px)');
+    var onChange = function (event) { if (event.matches) setMenu(false); };
+    if (desktop.addEventListener) desktop.addEventListener('change', onChange);
+    else if (desktop.addListener) desktop.addListener(onChange);
+  }
+
+  /* ---------- Máscara de WhatsApp ---------- */
+  var phone = document.querySelector('#whatsapp');
+  if (phone) {
+    phone.addEventListener('input', function (event) {
+      var digits = event.target.value.replace(/\D/g, '').slice(0, 11);
+      var value = digits;
+      if (digits.length > 2) value = '(' + digits.slice(0, 2) + ') ' + digits.slice(2);
+      if (digits.length > 6) {
+        var split = digits.length > 10 ? 7 : 6;
+        value = '(' + digits.slice(0, 2) + ') ' + digits.slice(2, split) + '-' + digits.slice(split);
+      }
+      event.target.value = value;
+    });
+  }
+
+  /* ---------- Formulário de contato ---------- */
+  var form = document.querySelector('#lead-form');
+  var feedback = document.querySelector('#form-feedback');
+
+  if (form && feedback) {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      if (!form.reportValidity()) {
+        var invalid = form.querySelector(':invalid');
+        if (invalid) invalid.focus();
+        return;
+      }
+
+      var button = form.querySelector('button[type="submit"]');
+      var data = new FormData(form);
+      var payload = {};
+
+      data.forEach(function (value, key) { payload[key] = value; });
+      payload.horarios = data.getAll('horarios');
+      payload.consentimento = data.get('consentimento') === 'on';
+
+      button.disabled = true;
+      button.textContent = 'Enviando…';
+      feedback.textContent = '';
+      feedback.className = 'form-feedback';
+
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (response) {
+          return response.json()
+            .catch(function () { return {}; })
+            .then(function (result) {
+              if (!response.ok) throw new Error(result.message || 'Não foi possível enviar agora.');
+              return result;
+            });
+        })
+        .then(function (result) {
+          form.reset();
+          feedback.textContent = result.message || 'Contato recebido.';
+          feedback.classList.add('success');
+        })
+        .catch(function (error) {
+          feedback.textContent = error.message || 'Não foi possível enviar. Tente novamente.';
+          feedback.classList.add('error');
+        })
+        .then(function () {
+          button.disabled = false;
+          button.textContent = 'Enviar meu contato';
+        });
+    });
+  }
+
+  /* ---------- Entrada suave das seções ---------- */
+  var revealables = document.querySelectorAll('.reveal');
+
+  if (!('IntersectionObserver' in window)) {
+    revealables.forEach(function (element) { element.classList.add('visible'); });
+    return;
+  }
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  revealables.forEach(function (element) { observer.observe(element); });
+}());

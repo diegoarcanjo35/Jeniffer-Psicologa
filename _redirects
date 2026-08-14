@@ -1,6 +1,8 @@
-/privacidade /privacidade.html 200
-/sobre /sobre.html 200
-/psicoterapia /psicoterapia.html 200
-/como-funciona /como-funciona.html 200
-/contato /contato.html 200
-/inicio /index.html 301
+# ATENÇÃO: não recrie regras do tipo "/sobre /sobre.html 200".
+# O Cloudflare Pages já serve /sobre a partir de sobre.html e redireciona
+# /sobre.html de volta para /sobre. Combinar as duas coisas criava um laço
+# infinito (ERR_TOO_MANY_REDIRECTS) — foi o que derrubou as páginas internas.
+
+/inicio    /    301
+/home      /    301
+/index     /    301
