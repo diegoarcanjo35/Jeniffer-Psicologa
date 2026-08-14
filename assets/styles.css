@@ -628,11 +628,15 @@ p { text-wrap: pretty; }
   margin-bottom: 34px;
 }
 
+.feature-media picture { display: block; }
+
+/* No celular a fonte é o recorte 3:4 já fechado no rosto — a proporção da
+   caixa acompanha o arquivo, então não há corte adicional. */
 .feature-media img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
-  object-position: center 14%;
+  object-position: center center;
 }
 
 .feature-media::after {
@@ -1319,3 +1323,38 @@ body.legal-page .site-footer { padding-bottom: 60px; }
 @media (min-width: 960px) {
   .section-action { margin-top: 52px; }
 }
+
+/* ---------- 22. Faixa clara: correções de contraste ----------
+   Regras como `.feature-copy > p` têm a mesma especificidade de
+   `.band--light p` e, por virem depois no arquivo, venciam — o texto
+   ficava creme sobre creme, ou seja, invisível. Este bloco fecha o tema
+   claro por último, garantindo a inversão de todas as cores de texto. */
+.band--light .feature-copy > p,
+.band--light .statement-note,
+.band--light .themes p,
+.band--light .step p,
+.band--light .lede,
+.band--light li,
+.band--light p { color: #5c463f; }
+
+.band--light h1,
+.band--light h2,
+.band--light h3,
+.band--light strong { color: #241a16; }
+
+.band--light .eyebrow,
+.band--light .text-link,
+.band--light .themes span,
+.band--light .step b { color: #96685a; }
+
+.band--light .pull {
+  border-top-color: rgba(36, 26, 22, .18);
+  color: var(--wine);
+}
+
+.band--light .themes,
+.band--light .themes article,
+.band--light .ledger,
+.band--light .ledger-item { border-color: rgba(36, 26, 22, .14); }
+
+.band--light .feature-media::after { box-shadow: inset 0 0 0 1px rgba(36, 26, 22, .16); }
