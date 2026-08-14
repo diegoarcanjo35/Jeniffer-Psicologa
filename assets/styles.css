@@ -24,12 +24,12 @@
   h1{font-size:clamp(2.55rem,12vw,3.75rem);line-height:1.02}
   h2{font-size:clamp(2.05rem,9.5vw,3rem);line-height:1.08}
   .eyebrow{margin-bottom:14px}
-  .hero{gap:0;padding-top:28px;padding-bottom:58px}
-  .hero-visual{width:100%;align-self:stretch}
-  .photo-frame{border-radius:42% 42% 3px 3px;box-shadow:0 18px 42px rgba(43,27,23,.12)}
-  .photo-frame img{height:auto;aspect-ratio:4/5;object-position:center 14%}
-  .hero-visual figcaption{left:12px;bottom:12px;width:auto;max-width:70%;padding:11px 14px;font-size:.9rem;line-height:1.25}
-  .hero-copy{margin-top:30px}
+  .hero{display:grid;gap:34px;padding-top:42px;padding-bottom:64px}
+  .hero-copy{order:0;margin-top:0}
+  .hero-visual{order:1;width:100%;margin:0;align-self:auto}
+  .photo-frame{width:100%;height:390px;border-radius:18px;box-shadow:0 18px 42px rgba(43,27,23,.12)}
+  .photo-frame img{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;object-position:center 28%}
+  .hero-visual figcaption{display:none}
   .hero h1{margin-bottom:18px}
   .hero-lead{font-size:1rem;line-height:1.55}
   .button-row{display:grid;margin-top:25px}
@@ -71,12 +71,12 @@
   .closing{padding:48px 0}
   .closing .button{width:auto}
   .site-footer{padding-top:54px;padding-bottom:88px}
-  .floating-cta{right:12px;bottom:12px;left:12px;text-align:center}
+  .floating-cta{display:none}
 }
 
 @media(max-width:390px){
   .brand-mark{width:39px;height:39px}
   .brand strong{font-size:1rem}
   .hero h1{font-size:2.6rem}
-  .hero-visual figcaption{max-width:78%}
+  .photo-frame{height:350px}
 }
