@@ -4,6 +4,17 @@
 (function () {
   'use strict';
 
+  /* ---------- Cabeçalho: fundo sólido depois do primeiro scroll ---------- */
+  var header = document.querySelector('[data-header]');
+
+  if (header) {
+    var syncHeader = function () {
+      header.classList.toggle('is-stuck', window.scrollY > 24);
+    };
+    syncHeader();
+    window.addEventListener('scroll', syncHeader, { passive: true });
+  }
+
   /* ---------- Menu mobile ---------- */
   var menuButton = document.querySelector('[data-menu-button]');
   var nav = document.querySelector('[data-nav]');
