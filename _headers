@@ -4,7 +4,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
   Cross-Origin-Opener-Policy: same-origin
-  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo=' 'sha256-E3QCi5aBeBTFHK/4EVvswMnW+4EvPVzm1CMLL/HJLLU=' 'sha256-UOtt+k+oK1ZU1k2fed7a/yvO7Q1DlkPp8AwJVi8FOrs='; connect-src 'self'; font-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' 'sha256-Dms4jG0/EOr0ISpBuM8/Fhib68gYHgyxzjqUqhTR8C0=' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo=' 'sha256-UOtt+k+oK1ZU1k2fed7a/yvO7Q1DlkPp8AwJVi8FOrs='; connect-src 'self'; font-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
 # Fotos e fontes: nome novo a cada troca, então podem ser eternos.

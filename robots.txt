@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jenifferpsi.elevesites.com.br/sitemap.xml
+Sitemap: https://jeniffer-psicologa.pages.dev/sitemap.xml
 
