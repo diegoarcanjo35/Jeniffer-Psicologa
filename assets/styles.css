@@ -1,10 +1,14 @@
 /* =========================================================
    Jeniffer Correia Psicologia
-   Sistema visual "escuro e intimista"
+   Sistema visual claro — creme, vinho e bronze
 
    Escrito mobile-first: o que está fora de @media vale para o
    celular; os blocos @media (min-width:) só ampliam o layout.
    Não adicione regras @media (max-width:) neste arquivo.
+
+   O site é claro por padrão. Três blocos são escuros e invertem
+   as cores de texto: .band--wine, .closing e .site-footer.
+   A inversão está concentrada na seção 21, no fim do arquivo.
    ========================================================= */
 
 /* ---------- 1. Fontes ---------- */
@@ -34,21 +38,36 @@
 
 /* ---------- 2. Tokens ---------- */
 :root {
-  --void: #0d0908;
-  --night: #15100e;
-  --surface: #1c1512;
-  --surface-2: #241a16;
-  --wine: #38201a;
-  --wine-2: #4a2a22;
+  /* superfícies claras */
+  --paper: #fcfaf6;
+  --cream: #f6f0e8;
+  --clay: #f0e8dc;
 
-  --cream: #f3ebe2;
-  --muted: rgba(243, 235, 226, .60);
-  --faint: rgba(243, 235, 226, .38);
-  --rose: #c69a87;
+  /* superfícies escuras (faixas de acento) */
+  --wine: #40251f;
+  --wine-2: #57332a;
+  --deep: #261917;
+
+  /* texto sobre claro */
+  --ink: #291d1a;
+  --muted: #6b5852;
+  --faint: #7a675f;
+  --rose: #a7796c;
+  --bronze: #87613a;
+
+  /* texto sobre escuro */
+  --on-dark: #f3ebe2;
+  --on-dark-muted: rgba(243, 235, 226, .68);
+  --on-dark-faint: rgba(243, 235, 226, .46);
   --gold: #c9a97c;
 
-  --line: rgba(243, 235, 226, .10);
-  --line-2: rgba(243, 235, 226, .20);
+  --line: rgba(64, 37, 31, .14);
+  --line-2: rgba(64, 37, 31, .26);
+  --line-dark: rgba(243, 235, 226, .16);
+  --line-dark-2: rgba(243, 235, 226, .28);
+
+  --shadow: 0 26px 64px rgba(43, 27, 23, .13);
+  --shadow-s: 0 12px 30px rgba(43, 27, 23, .09);
 
   --display: 'Cormorant', Georgia, 'Times New Roman', serif;
   --sans: 'InterVar', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -75,23 +94,24 @@ body {
   position: relative;
   margin: 0;
   overflow-x: hidden;
-  background: var(--night);
-  color: var(--cream);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--sans);
   font-size: 16px;
-  font-weight: 350;
+  font-weight: 380;
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* Grão sutil: tira o aspecto "chapado" do fundo escuro. */
+/* Grão bem discreto: no fundo claro ele só tira o aspecto plástico.
+   Em opacidade alta o creme fica sujo, por isso o valor é baixo. */
 body::after {
   position: fixed;
   z-index: 999;
   inset: 0;
   content: '';
-  opacity: .5;
+  opacity: .22;
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
 }
@@ -110,17 +130,17 @@ h1, h2, h3, p, ul { margin-top: 0; }
 
 h1, h2, h3 {
   font-family: var(--display);
-  font-weight: 400;
-  line-height: 1.04;
+  font-weight: 500;
+  line-height: 1.05;
   letter-spacing: -.015em;
   text-wrap: balance;
 }
 
-h1 { font-size: clamp(3rem, 13vw, 8.4rem); }
-h2 { font-size: clamp(2.3rem, 9.2vw, 5.2rem); }
+h1 { font-size: clamp(2.9rem, 12.4vw, 8rem); }
+h2 { font-size: clamp(2.2rem, 8.8vw, 5rem); }
 
 h3 {
-  font-size: clamp(1.5rem, 5vw, 1.85rem);
+  font-size: clamp(1.45rem, 4.8vw, 1.8rem);
   line-height: 1.2;
 }
 
@@ -128,12 +148,12 @@ em { font-style: italic; }
 p { text-wrap: pretty; }
 
 ::selection {
-  background: var(--rose);
-  color: var(--void);
+  background: var(--wine);
+  color: var(--on-dark);
 }
 
 :focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--wine);
   outline-offset: 4px;
 }
 
@@ -152,36 +172,26 @@ p { text-wrap: pretty; }
   padding-block: var(--band-y);
 }
 
-.band--surface { background: var(--surface); }
+.band--surface { background: var(--cream); }
+.band--light { background: var(--clay); }
 .band--wine { background: var(--wine); }
-.band--void { background: var(--void); }
+.band--void { background: var(--deep); }
 
-/* A única quebra luminosa do site — usada uma vez, de propósito. */
-.band--light {
-  background: var(--cream);
-  color: #241a16;
-}
-
-.band--light .eyebrow { color: #96685a; }
-.band--light .lede,
-.band--light p { color: #5c463f; }
-
-/* Filete que se dissolve nas pontas. */
 .hairline {
   height: 1px;
-  border: 0;
   margin: 0;
+  border: 0;
   background: linear-gradient(90deg, transparent, var(--line-2) 18%, var(--line-2) 82%, transparent);
 }
 
 .eyebrow {
   display: flex;
-  align-items: center;
   gap: 12px;
+  align-items: center;
   margin: 0 0 20px;
-  color: var(--gold);
+  color: var(--bronze);
   font-size: .66rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .26em;
   text-transform: uppercase;
 }
@@ -199,12 +209,13 @@ p { text-wrap: pretty; }
   max-width: 46ch;
   color: var(--muted);
   font-size: 1.05rem;
-  font-weight: 300;
+  font-weight: 350;
 }
 
 .section-head { margin-bottom: 44px; }
 .section-head h2 { margin-bottom: 18px; }
 .section-head .lede { margin-bottom: 0; }
+.section-action { margin: 42px 0 0; }
 
 .skip-link {
   position: fixed;
@@ -212,8 +223,8 @@ p { text-wrap: pretty; }
   top: -100px;
   left: 12px;
   padding: 12px 20px;
-  background: var(--cream);
-  color: var(--void);
+  background: var(--wine);
+  color: var(--on-dark);
   font-size: .85rem;
   font-weight: 600;
 }
@@ -224,37 +235,35 @@ p { text-wrap: pretty; }
 .button {
   position: relative;
   display: inline-flex;
+  gap: 10px;
   align-items: center;
   justify-content: center;
   min-height: 56px;
   padding: 14px 30px;
   border: 1px solid transparent;
   font-size: .74rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .18em;
-  text-transform: uppercase;
   text-align: center;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease);
+  transition: background .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease), transform .25s var(--ease);
 }
 
 .button--solid {
-  background: var(--cream);
-  color: var(--void);
+  background: var(--wine);
+  color: var(--on-dark);
 }
 
 .button--outline {
   border-color: var(--line-2);
-  color: var(--cream);
+  color: var(--ink);
 }
 
 .button--gold {
-  border-color: var(--gold);
-  color: var(--gold);
+  border-color: var(--wine);
+  color: var(--wine);
 }
-
-.band--light .button--solid { background: var(--wine); color: var(--cream); }
-.band--light .button--outline { border-color: rgba(36, 26, 22, .3); color: #241a16; }
 
 .button-row {
   display: grid;
@@ -262,16 +271,15 @@ p { text-wrap: pretty; }
   margin-top: 34px;
 }
 
-/* Link de texto com traço que cresce no hover. */
 .text-link {
   position: relative;
   display: inline-flex;
-  align-items: center;
   gap: 10px;
+  align-items: center;
   min-height: 46px;
-  color: var(--gold);
+  color: var(--bronze);
   font-size: .74rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .16em;
   text-transform: uppercase;
 }
@@ -284,15 +292,15 @@ p { text-wrap: pretty; }
   height: 1px;
   background: currentColor;
   content: '';
-  opacity: .45;
+  opacity: .5;
   transform-origin: left;
   transition: transform .45s var(--ease), opacity .3s var(--ease);
 }
 
 @media (hover: hover) {
-  .button--solid:hover { background: var(--gold); }
-  .button--outline:hover { border-color: var(--cream); }
-  .button--gold:hover { background: var(--gold); color: var(--void); }
+  .button--solid:hover { background: var(--wine-2); transform: translateY(-2px); }
+  .button--outline:hover { border-color: var(--wine); background: #fff; }
+  .button--gold:hover { background: var(--wine); color: var(--on-dark); }
   .text-link:hover::after { opacity: 1; transform: scaleX(.35); }
 }
 
@@ -320,35 +328,35 @@ p { text-wrap: pretty; }
   right: 0;
   left: 0;
   border-bottom: 1px solid transparent;
-  transition: background .5s var(--ease), border-color .5s var(--ease), backdrop-filter .5s var(--ease);
+  transition: background .5s var(--ease), border-color .5s var(--ease);
 }
 
 .site-header.is-stuck {
   border-bottom-color: var(--line);
-  background: rgba(13, 9, 8, .82);
+  background: rgba(252, 250, 246, .9);
   backdrop-filter: blur(16px) saturate(140%);
 }
 
 .header-inner {
   display: flex;
+  gap: 14px;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
   min-height: var(--header-h);
 }
 
 .brand {
   display: flex;
   flex-direction: column;
+  gap: 2px;
   justify-content: center;
   min-height: 48px;
-  gap: 2px;
 }
 
 .brand-name {
   font-family: var(--display);
   font-size: 1.32rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .01em;
   line-height: 1.05;
   white-space: nowrap;
@@ -357,7 +365,7 @@ p { text-wrap: pretty; }
 .brand-sub {
   color: var(--faint);
   font-size: .53rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .2em;
   text-transform: uppercase;
 }
@@ -378,8 +386,8 @@ p { text-wrap: pretty; }
 .menu-button span {
   display: block;
   width: 26px;
-  height: 1px;
-  background: var(--cream);
+  height: 1.5px;
+  background: var(--wine);
   transition: transform .4s var(--ease), opacity .3s var(--ease);
 }
 
@@ -394,7 +402,6 @@ p { text-wrap: pretty; }
   clip-path: inset(50%);
 }
 
-/* Painel de navegação: cobre a tela inteira no celular. */
 .main-nav {
   position: fixed;
   z-index: 99;
@@ -404,7 +411,7 @@ p { text-wrap: pretty; }
   flex-direction: column;
   justify-content: center;
   padding: calc(var(--header-h) + 24px) var(--gutter) 40px;
-  background: var(--void);
+  background: var(--paper);
   opacity: 0;
   transition: opacity .45s var(--ease), visibility .45s;
 }
@@ -421,77 +428,75 @@ p { text-wrap: pretty; }
   border-bottom: 1px solid var(--line);
   font-family: var(--display);
   font-size: 2rem;
-  font-weight: 400;
+  font-weight: 500;
   transition: color .3s var(--ease);
 }
 
-.main-nav a.active { color: var(--gold); }
+.main-nav a.active { color: var(--rose); }
 
 .main-nav .nav-cta {
   justify-content: center;
   margin-top: 32px;
-  border: 1px solid var(--gold);
-  color: var(--gold);
+  border: 0;
+  background: var(--wine);
+  color: var(--on-dark);
   font-family: var(--sans);
   font-size: .74rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .18em;
   text-transform: uppercase;
 }
 
 .nav-backdrop { display: none; }
 
-/* ---------- 8. Hero ---------- */
+/* ---------- 8. Capa ----------
+   Fundo claro com a foto emoldurada ao lado do texto. A foto não
+   sangra na página: as fotos da Jeniffer têm fundo escuro e, soltas
+   sobre o creme, criariam um bloco preto no meio da composição. */
 .hero {
   position: relative;
-  display: flex;
-  align-items: flex-end;
-  min-height: 100svh;
-  /* O recuo inferior reserva o espaço da barra fixa de conversão. */
-  padding-block: calc(var(--header-h) + 40px) 104px;
-  overflow: hidden;
+  padding-block: calc(var(--header-h) + 40px) 64px;
 }
 
-.hero-media {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
+.hero-grid {
+  display: grid;
+  gap: 38px;
 }
+
+.hero h1 { margin-bottom: 20px; }
+.hero h1 em { color: var(--rose); }
+.hero .lede { max-width: 42ch; }
+
+.hero-media {
+  position: relative;
+  margin: 0;
+}
+
+.photo-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--clay);
+  box-shadow: var(--shadow);
+}
+
+.hero-media picture,
+.open-media picture { display: block; }
 
 .hero-media img {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
-  object-position: center 9%;
+  object-position: center 12%;
 }
 
-/* Véu que dissolve a foto no fundo — no celular, de cima para baixo.
-   O escurecimento começa antes do texto para o rosto não competir com ele. */
-.hero-veil {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to bottom,
-      rgba(13, 9, 8, .52) 0%,
-      rgba(13, 9, 8, .26) 20%,
-      rgba(21, 16, 14, .74) 46%,
-      rgba(21, 16, 14, .95) 68%,
-      var(--night) 86%);
+.hero-media figcaption {
+  margin-top: 16px;
+  color: var(--muted);
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-style: italic;
 }
-
-.hero-inner {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-}
-
-.hero h1 {
-  margin-bottom: 22px;
-  text-shadow: 0 2px 40px rgba(13, 9, 8, .5);
-}
-
-.hero h1 em { color: var(--rose); }
-.hero .lede { max-width: 40ch; color: rgba(243, 235, 226, .78); }
 
 .trust-line {
   display: flex;
@@ -500,35 +505,42 @@ p { text-wrap: pretty; }
   margin: 28px 0 0;
   color: var(--faint);
   font-size: .68rem;
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: .14em;
   text-transform: uppercase;
 }
 
-.trust-line span { color: var(--gold); }
-
-.scroll-hint { display: none; }
+.trust-line span { color: var(--bronze); }
 
 /* ---------- 9. Abertura das páginas internas ---------- */
 .page-open {
   position: relative;
-  padding-block: calc(var(--header-h) + 64px) 64px;
-  overflow: hidden;
+  padding-block: calc(var(--header-h) + 48px) 60px;
 }
-
-.page-open--media { min-height: 78svh; display: flex; align-items: flex-end; }
-.page-open--media .hero-media img { object-position: center 15%; }
 
 .page-open h1 { margin-bottom: 20px; }
 .page-open h1 em { color: var(--rose); }
 .page-open .lede { max-width: 52ch; }
 
-.page-open--plain::before {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  content: '';
-  background: radial-gradient(120% 90% at 15% 0%, rgba(58, 32, 26, .85), transparent 62%);
+.page-open--plain { background: var(--cream); }
+
+.open-grid {
+  display: grid;
+  gap: 38px;
+}
+
+.open-media {
+  position: relative;
+  margin: 0;
+}
+
+.open-media img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 4px;
+  object-fit: cover;
+  object-position: center 12%;
+  box-shadow: var(--shadow);
 }
 
 /* ---------- 10. Lista de reconhecimento ---------- */
@@ -544,17 +556,17 @@ p { text-wrap: pretty; }
 }
 
 .ledger-item > span {
-  color: var(--gold);
+  color: var(--bronze);
   font-family: var(--display);
   font-size: 1.1rem;
-  opacity: .8;
+  font-weight: 600;
 }
 
 .ledger-item p {
   margin: 0;
   font-family: var(--display);
   font-size: clamp(1.35rem, 5.4vw, 1.9rem);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.28;
 }
 
@@ -578,7 +590,6 @@ p { text-wrap: pretty; }
 /* ---------- 11. Processo ---------- */
 .steps {
   display: grid;
-  gap: 0;
   padding-left: 22px;
   border-left: 1px solid var(--line);
 }
@@ -596,18 +607,18 @@ p { text-wrap: pretty; }
   left: -27px;
   width: 9px;
   height: 9px;
-  border: 1px solid var(--gold);
+  border: 1px solid var(--bronze);
   border-radius: 50%;
-  background: var(--night);
+  background: var(--paper);
   content: '';
 }
 
 .step b {
   display: block;
   margin-bottom: 8px;
-  color: var(--gold);
+  color: var(--bronze);
   font-size: .68rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .2em;
 }
 
@@ -620,6 +631,8 @@ p { text-wrap: pretty; }
   font-size: .95rem;
 }
 
+.band--surface .step::before { background: var(--cream); }
+
 /* ---------- 12. Bloco editorial com foto ---------- */
 .feature { position: relative; }
 
@@ -630,43 +643,34 @@ p { text-wrap: pretty; }
 
 .feature-media picture { display: block; }
 
-/* No celular a fonte é o recorte 3:4 já fechado no rosto — a proporção da
-   caixa acompanha o arquivo, então não há corte adicional. */
 .feature-media img {
   width: 100%;
   aspect-ratio: 3 / 4;
+  border-radius: 4px;
   object-fit: cover;
   object-position: center center;
-}
-
-.feature-media::after {
-  position: absolute;
-  inset: 0;
-  content: '';
-  box-shadow: inset 0 0 0 1px var(--line-2);
+  box-shadow: var(--shadow-s);
 }
 
 .feature-copy h2 { margin-bottom: 18px; }
-.feature-copy > p { color: var(--muted); }
+/* O :not() impede que esta regra (0,2,1) engula .eyebrow e .pull, que têm
+   especificidade menor e cores próprias. */
+.feature-copy > p:not(.eyebrow):not(.pull) { color: var(--muted); }
 
 .pull {
   margin: 30px 0 0;
   padding-top: 26px;
   border-top: 1px solid var(--line-2);
-  color: var(--cream);
+  color: var(--wine);
   font-family: var(--display);
   font-size: clamp(1.35rem, 5vw, 1.75rem);
   font-style: italic;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.35;
 }
 
-.band--light .pull { color: var(--wine); border-top-color: rgba(36, 26, 22, .18); }
-.band--light .feature-media::after { box-shadow: inset 0 0 0 1px rgba(36, 26, 22, .16); }
-
 /* ---------- 13. Declaração central ---------- */
 .statement { text-align: center; }
-
 .statement .eyebrow { justify-content: center; }
 
 .statement-copy {
@@ -674,7 +678,7 @@ p { text-wrap: pretty; }
   margin: 0 auto;
   font-family: var(--display);
   font-size: clamp(1.9rem, 7.6vw, 3.6rem);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.16;
 }
 
@@ -685,7 +689,7 @@ p { text-wrap: pretty; }
   margin: 28px auto 0;
   color: var(--muted);
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: 350;
 }
 
 .tags {
@@ -696,13 +700,15 @@ p { text-wrap: pretty; }
   margin-top: 34px;
 }
 
+.tags--start { justify-content: flex-start; margin-top: 36px; }
+
 .tags span {
   padding: 9px 18px;
   border: 1px solid var(--line-2);
   border-radius: 40px;
   color: var(--muted);
   font-size: .64rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .16em;
   text-transform: uppercase;
 }
@@ -721,12 +727,12 @@ p { text-wrap: pretty; }
 .themes span {
   display: block;
   margin-bottom: 12px;
-  color: var(--gold);
+  color: var(--bronze);
   font-family: var(--display);
   font-size: 1rem;
+  font-weight: 600;
 }
 
-/* Títulos longos ("Autoconhecimento") não podem estourar a coluna. */
 .themes h3 {
   margin-bottom: 8px;
   overflow-wrap: break-word;
@@ -756,7 +762,7 @@ p { text-wrap: pretty; }
   cursor: pointer;
   font-family: var(--display);
   font-size: clamp(1.25rem, 4.8vw, 1.6rem);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.3;
   transition: color .3s var(--ease);
 }
@@ -766,14 +772,14 @@ p { text-wrap: pretty; }
 .faq-list summary span {
   flex: 0 0 auto;
   margin-top: 4px;
-  color: var(--gold);
+  color: var(--bronze);
   font-family: var(--sans);
   font-size: 1.1rem;
   font-weight: 300;
   transition: transform .35s var(--ease);
 }
 
-.faq-list details[open] summary { color: var(--gold); }
+.faq-list details[open] summary { color: var(--wine); }
 .faq-list details[open] summary span { transform: rotate(135deg); }
 
 .faq-list details p {
@@ -785,6 +791,8 @@ p { text-wrap: pretty; }
 }
 
 /* ---------- 16. Formulário ---------- */
+.band--contact { padding-top: calc(var(--header-h) + 64px); }
+
 .form-intro h1 { margin-bottom: 20px; }
 .form-intro .lede { margin-bottom: 0; }
 
@@ -802,7 +810,7 @@ p { text-wrap: pretty; }
   text-transform: uppercase;
 }
 
-.promise strong { color: var(--gold); font-weight: 500; }
+.promise strong { color: var(--bronze); font-weight: 700; }
 
 .privacy-note {
   margin-top: 16px;
@@ -814,7 +822,9 @@ p { text-wrap: pretty; }
   margin-top: 44px;
   padding: 32px 22px;
   border: 1px solid var(--line);
-  background: var(--surface);
+  border-radius: 4px;
+  background: var(--cream);
+  box-shadow: var(--shadow-s);
 }
 
 .field { margin-bottom: 26px; }
@@ -824,14 +834,13 @@ p { text-wrap: pretty; }
   display: block;
   margin-bottom: 10px;
   padding: 0;
-  color: var(--faint);
+  color: var(--muted);
   font-size: .64rem;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: .18em;
   text-transform: uppercase;
 }
 
-/* Campos com filete inferior — sem caixas, mais discreto. */
 .lead-form input,
 .lead-form select,
 .lead-form textarea {
@@ -843,9 +852,9 @@ p { text-wrap: pretty; }
   border-radius: 0;
   outline: none;
   background: transparent;
-  color: var(--cream);
+  color: var(--ink);
   font-size: 16px; /* 16px evita o zoom automático do iOS ao focar */
-  font-weight: 300;
+  font-weight: 350;
   transition: border-color .3s var(--ease);
 }
 
@@ -854,21 +863,20 @@ p { text-wrap: pretty; }
   resize: vertical;
 }
 
-/* Seta própria: sem ela o select some visualmente no tema escuro. */
+/* Seta própria: sem ela o select não se distingue de um campo de texto. */
 .lead-form select {
   appearance: none;
   padding-right: 32px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23c9a97c' stroke-width='1.4'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%2387613a' stroke-width='1.4'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 4px center;
 }
-.lead-form select option { background: var(--surface); color: var(--cream); }
 
-.lead-form ::placeholder { color: rgba(243, 235, 226, .28); }
+.lead-form ::placeholder { color: rgba(41, 29, 26, .34); }
 
 .lead-form input:focus,
 .lead-form select:focus,
-.lead-form textarea:focus { border-bottom-color: var(--gold); }
+.lead-form textarea:focus { border-bottom-color: var(--wine); }
 
 .lead-form fieldset {
   margin: 0 0 26px;
@@ -889,13 +897,15 @@ p { text-wrap: pretty; }
   min-height: 50px;
   padding: 8px 14px;
   border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--paper);
   cursor: pointer;
   font-size: .85rem;
-  font-weight: 300;
+  font-weight: 350;
   transition: border-color .3s var(--ease);
 }
 
-.checks label:has(input:checked) { border-color: var(--gold); color: var(--gold); }
+.checks label:has(input:checked) { border-color: var(--wine); color: var(--wine); }
 
 .checks input,
 .consent input {
@@ -903,7 +913,7 @@ p { text-wrap: pretty; }
   height: 18px;
   flex: 0 0 auto;
   margin: 0;
-  accent-color: var(--gold);
+  accent-color: var(--wine);
 }
 
 .consent {
@@ -912,15 +922,16 @@ p { text-wrap: pretty; }
   align-items: flex-start;
   color: var(--muted);
   font-size: .86rem;
-  font-weight: 300;
+  font-weight: 350;
   line-height: 1.6;
 }
 
 .consent input { margin-top: 4px; }
 
+/* Link dentro da frase: aumenta a área de toque sem quebrar o texto. */
 .consent a {
   padding-block: 10px;
-  color: var(--gold);
+  color: var(--wine);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -944,14 +955,14 @@ p { text-wrap: pretty; }
   font-size: .88rem;
 }
 
-.form-feedback.success { color: var(--gold); }
-.form-feedback.error { color: #e08b7f; }
+.form-feedback.success { color: #2f5b40; }
+.form-feedback.error { color: #98302f; }
 
 /* ---------- 17. Fecho e rodapé ---------- */
 .closing {
   position: relative;
   padding-block: calc(var(--band-y) + 10px);
-  background: var(--void);
+  background: var(--wine);
   text-align: center;
 }
 
@@ -959,7 +970,7 @@ p { text-wrap: pretty; }
   position: absolute;
   inset: 0;
   content: '';
-  background: radial-gradient(80% 120% at 50% 100%, rgba(58, 32, 26, .9), transparent 65%);
+  background: radial-gradient(80% 120% at 50% 100%, rgba(87, 51, 42, .95), transparent 65%);
 }
 
 .closing p {
@@ -967,14 +978,13 @@ p { text-wrap: pretty; }
   margin: 0 auto 34px;
   font-family: var(--display);
   font-size: clamp(1.9rem, 7.4vw, 3.4rem);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.16;
 }
 
 .site-footer {
   padding: 60px 0 100px;
-  border-top: 1px solid var(--line);
-  background: var(--void);
+  background: var(--deep);
 }
 
 .footer-grid {
@@ -985,47 +995,39 @@ p { text-wrap: pretty; }
 .footer-brand {
   font-family: var(--display);
   font-size: 1.5rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .footer-grid p {
   margin: 8px 0 0;
-  color: var(--faint);
   font-size: .82rem;
-  font-weight: 300;
+  font-weight: 350;
 }
 
 .footer-grid a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  color: var(--muted);
   font-size: .82rem;
   transition: color .3s var(--ease);
 }
 
-.footer-grid a:hover { color: var(--gold); }
-
 .emergency {
   margin-top: 44px;
   padding-top: 24px;
-  border-top: 1px solid var(--line);
-  color: var(--faint);
+  border-top: 1px solid var(--line-dark);
   font-size: .76rem;
-  font-weight: 300;
+  font-weight: 350;
 }
-
-.emergency strong { color: var(--muted); font-weight: 500; }
 
 .studio-credit {
   margin-top: 16px;
-  color: rgba(243, 235, 226, .22);
   font-size: .7rem;
   letter-spacing: .1em;
   text-transform: uppercase;
 }
 
-/* Barra fixa de conversão — só no celular. */
+/* ---------- 18. CTAs fixos ---------- */
 .mobile-bar {
   position: fixed;
   z-index: 90;
@@ -1034,7 +1036,7 @@ p { text-wrap: pretty; }
   left: 0;
   padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
   border-top: 1px solid var(--line);
-  background: rgba(13, 9, 8, .88);
+  background: rgba(252, 250, 246, .95);
   backdrop-filter: blur(16px);
 }
 
@@ -1043,28 +1045,69 @@ p { text-wrap: pretty; }
 body.page-contato .mobile-bar { display: none; }
 body.page-contato .site-footer { padding-bottom: 60px; }
 
-/* ---------- 18. Página legal ---------- */
+/* Botão flutuante de WhatsApp — presente em todas as páginas.
+   No celular ele sobe para não colidir com a barra fixa. */
+.wa-float {
+  position: fixed;
+  z-index: 95;
+  right: 16px;
+  bottom: calc(84px + env(safe-area-inset-bottom));
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--wine);
+  box-shadow: 0 10px 28px rgba(38, 25, 23, .32);
+  color: var(--on-dark);
+  transition: background .3s var(--ease), transform .25s var(--ease);
+}
+
+body.page-contato .wa-float { bottom: calc(16px + env(safe-area-inset-bottom)); }
+
+.wa-float svg {
+  width: 27px;
+  height: 27px;
+  fill: currentColor;
+}
+
+.wa-float span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+@media (hover: hover) {
+  .wa-float:hover { background: var(--wine-2); transform: translateY(-3px); }
+  .footer-grid a:hover { color: var(--gold); }
+}
+
+/* ---------- 19. Página legal ---------- */
 .legal {
   max-width: 780px;
   padding-block: calc(var(--header-h) + 56px) 72px;
 }
 
-.legal h1 { font-size: clamp(2.4rem, 10vw, 4.4rem); margin-bottom: 14px; }
+.legal h1 { margin-bottom: 14px; font-size: clamp(2.4rem, 10vw, 4.4rem); }
 
 .legal h2 {
   margin-top: 44px;
   margin-bottom: 12px;
+  color: var(--wine);
   font-size: clamp(1.4rem, 5vw, 1.8rem);
-  color: var(--gold);
 }
 
-.legal p { color: var(--muted); font-weight: 300; }
+.legal p { color: var(--muted); font-weight: 350; }
 .legal-date { color: var(--faint); font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; }
 
-/* Link dentro do texto: aumenta a área de toque sem quebrar a linha. */
 .legal p a {
   padding-block: 12px;
-  color: var(--gold);
+  color: var(--wine);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -1073,10 +1116,9 @@ body.page-contato .site-footer { padding-bottom: 60px; }
 body.legal-page .site-footer { padding-bottom: 60px; }
 
 /* =========================================================
-   19. Ampliações
+   20. Ampliações
    ========================================================= */
 
-/* --- 600px --- */
 @media (min-width: 600px) {
   :root { --gutter: 32px; --band-y: 104px; }
 
@@ -1089,9 +1131,28 @@ body.legal-page .site-footer { padding-bottom: 60px; }
   .themes { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; }
   .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .lead-form { padding: 40px 34px; }
+
+  /* A partir daqui o botão vira pílula com rótulo. */
+  .wa-float {
+    width: auto;
+    height: 56px;
+    padding: 0 24px 0 20px;
+    border-radius: 40px;
+  }
+
+  .wa-float span {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    font-size: .74rem;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
 }
 
-/* --- 960px: layout de duas colunas, menu horizontal --- */
 @media (min-width: 960px) {
   :root { --gutter: 46px; --band-y: 148px; --header-h: 92px; }
 
@@ -1114,81 +1175,71 @@ body.legal-page .site-footer { padding-bottom: 60px; }
   .main-nav a {
     min-height: 44px;
     border: 0;
+    color: var(--muted);
     font-family: var(--sans);
     font-size: .72rem;
-    font-weight: 450;
+    font-weight: 600;
     letter-spacing: .16em;
     text-transform: uppercase;
-    color: var(--muted);
   }
 
-  .main-nav a:hover { color: var(--cream); }
-  .main-nav a.active { color: var(--gold); }
+  .main-nav a:hover { color: var(--ink); }
+  .main-nav a.active { color: var(--bronze); }
 
   .main-nav .nav-cta {
     margin-top: 0;
     padding: 13px 24px;
-    color: var(--gold);
+    color: var(--on-dark);
   }
 
-  .main-nav .nav-cta:hover { background: var(--gold); color: var(--void); }
+  .main-nav .nav-cta:hover { background: var(--wine-2); color: var(--on-dark); }
 
   .brand-name { font-size: 1.5rem; }
   .brand-sub { font-size: .58rem; }
 
   .section-head { margin-bottom: 64px; }
+  .section-action { margin-top: 52px; }
 
-  /* Hero: a foto ocupa a direita e se dissolve para a esquerda. */
-  .hero { align-items: center; padding-block: var(--header-h) 40px; }
+  .hero { padding-block: calc(var(--header-h) + 56px) 96px; }
 
-  .hero-media { left: 42%; }
-
-  .hero-media img { object-position: center 14%; }
-
-  .hero-veil {
-    background:
-      linear-gradient(to right,
-        var(--night) 0%,
-        rgba(21, 16, 14, .92) 22%,
-        rgba(21, 16, 14, .35) 55%,
-        transparent 78%),
-      linear-gradient(to bottom, rgba(13, 9, 8, .5), transparent 30%, rgba(13, 9, 8, .55));
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, .8fr);
+    gap: 7vw;
+    align-items: center;
   }
 
-  /* Limita a largura do conteúdo sem estreitar o .shell — senão o
-     margin-inline:auto recentraliza o bloco e ele sai do alinhamento
-     do cabeçalho. */
-  .hero-inner > * { max-width: 62%; }
-  .hero h1 { margin-bottom: 28px; }
   .hero .lede { font-size: 1.15rem; }
+  .hero h1 { margin-bottom: 26px; }
 
-  .scroll-hint {
+  /* Arco: a moldura que a Jeniffer já conhecia. */
+  .photo-frame { border-radius: 46% 46% 4px 4px; }
+  .hero-media img { aspect-ratio: .78; object-position: center 14%; }
+
+  .hero-media figcaption {
     position: absolute;
-    z-index: 3;
-    bottom: 44px;
-    left: max(var(--gutter), calc((100% - var(--maxw)) / 2 + var(--gutter)));
-    display: block;
-    color: var(--faint);
-    font-size: .6rem;
-    font-weight: 500;
-    letter-spacing: .3em;
-    text-transform: uppercase;
+    right: -24px;
+    bottom: 34px;
+    width: 214px;
+    margin: 0;
+    padding: 18px 22px;
+    background: var(--cream);
+    box-shadow: var(--shadow);
+    color: var(--wine);
+    font-size: 1.05rem;
+    line-height: 1.4;
   }
 
-  .scroll-hint::after {
-    display: block;
-    width: 1px;
-    height: 46px;
-    margin-top: 12px;
-    background: linear-gradient(var(--gold), transparent);
-    content: '';
-  }
-
-  .page-open { padding-block: calc(var(--header-h) + 90px) 90px; }
-  .page-open--media { min-height: 68svh; }
+  .page-open { padding-block: calc(var(--header-h) + 74px) 84px; }
   .page-open .lede { font-size: 1.15rem; }
 
-  /* Grade editorial: cabeçalho à esquerda, conteúdo à direita. */
+  .open-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, .72fr);
+    gap: 7vw;
+    align-items: center;
+  }
+
+  .open-media img { aspect-ratio: .8; border-radius: 48% 48% 4px 4px; }
+
   .split {
     display: grid;
     grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
@@ -1202,10 +1253,7 @@ body.legal-page .site-footer { padding-bottom: 60px; }
     margin-bottom: 0;
   }
 
-  .ledger-item {
-    grid-template-columns: 64px 1fr;
-    padding-block: 34px;
-  }
+  .ledger-item { grid-template-columns: 64px 1fr; padding-block: 34px; }
 
   .steps {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1216,11 +1264,7 @@ body.legal-page .site-footer { padding-bottom: 60px; }
   }
 
   .step { padding: 0; }
-
-  .step::before {
-    top: -38px;
-    left: 0;
-  }
+  .step::before { top: -38px; left: 0; }
 
   .feature {
     display: grid;
@@ -1230,18 +1274,17 @@ body.legal-page .site-footer { padding-bottom: 60px; }
   }
 
   .feature--reverse .feature-media { order: 2; }
-
   .feature-media { margin-bottom: 0; }
-  .feature-media img { aspect-ratio: .82; object-position: center 12%; }
+  .feature-media img { aspect-ratio: .82; }
 
-  .statement-copy { font-size: clamp(2.8rem, 4.4vw, 4.2rem); max-width: 18ch; }
+  .statement-copy { max-width: 18ch; font-size: clamp(2.8rem, 4.4vw, 4.2rem); }
   .statement-note { font-size: 1.08rem; }
 
   .themes { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px; }
   .themes article { padding-block: 36px; }
 
-  /* Dentro do .split a grade vive numa coluna estreita: duas colunas cabem,
-     três espremem os títulos. */
+  /* Dentro do .split a grade vive numa coluna estreita: três colunas
+     espremem os títulos longos. */
   .split .themes { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; }
 
   .faq-list summary { padding-block: 30px; }
@@ -1254,10 +1297,7 @@ body.legal-page .site-footer { padding-bottom: 60px; }
     align-items: start;
   }
 
-  .form-intro {
-    position: sticky;
-    top: calc(var(--header-h) + 56px);
-  }
+  .form-intro { position: sticky; top: calc(var(--header-h) + 56px); }
 
   .lead-form { margin-top: 0; padding: 48px; }
   .form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; }
@@ -1270,20 +1310,85 @@ body.legal-page .site-footer { padding-bottom: 60px; }
   .footer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 56px; }
 
   .mobile-bar { display: none; }
+
+  /* Sem barra fixa no desktop, o botão volta para o canto. */
+  .wa-float,
+  body.page-contato .wa-float { right: 26px; bottom: 26px; }
+
   body.page-contato .site-footer,
   body.legal-page .site-footer { padding-bottom: 44px; }
 
   .legal { padding-block: calc(var(--header-h) + 90px) 110px; }
 }
 
-/* --- 1400px --- */
 @media (min-width: 1400px) {
   :root { --band-y: 176px; }
-  .hero-media { left: 46%; }
-  .hero-inner > * { max-width: 56%; }
 }
 
-/* ---------- 20. Preferências do sistema ---------- */
+/* =========================================================
+   21. Faixas escuras — inversão das cores de texto
+
+   Este bloco fecha o arquivo de propósito. Regras como
+   `.feature-copy > p` têm a mesma especificidade de
+   `.band--wine p` e, se viessem depois, o texto ficaria
+   marrom sobre vinho — ilegível.
+   ========================================================= */
+.band--wine,
+.closing,
+.site-footer { color: var(--on-dark); }
+
+.band--wine h1,
+.band--wine h2,
+.band--wine h3,
+.closing p,
+.site-footer strong,
+.footer-brand { color: var(--on-dark); }
+
+.band--wine p,
+.band--wine .lede,
+.band--wine li,
+.band--wine .feature-copy > p:not(.eyebrow):not(.pull),
+.band--wine .statement-note,
+.band--wine .themes p,
+.band--wine .step p,
+.site-footer p,
+.emergency { color: var(--on-dark-muted); }
+
+.band--wine .eyebrow,
+.band--wine .text-link,
+.band--wine .themes span,
+.band--wine .step b,
+.band--wine .ledger-item > span,
+.site-footer a { color: var(--gold); }
+
+.studio-credit { color: var(--on-dark-faint); }
+.emergency strong { color: var(--on-dark); font-weight: 600; }
+
+.band--wine .pull {
+  border-top-color: var(--line-dark-2);
+  color: var(--on-dark);
+}
+
+.band--wine .tags span { border-color: var(--line-dark-2); color: var(--on-dark-muted); }
+.band--wine .themes,
+.band--wine .themes article,
+.band--wine .ledger,
+.band--wine .ledger-item,
+.band--wine .faq-list,
+.band--wine .faq-list details { border-color: var(--line-dark); }
+
+.band--wine .step::before { border-color: var(--gold); background: var(--wine); }
+.band--wine .feature-media img { box-shadow: 0 20px 48px rgba(15, 8, 6, .38); }
+
+.band--wine .button--outline { border-color: var(--line-dark-2); color: var(--on-dark); }
+.closing .button--gold { border-color: var(--gold); color: var(--gold); }
+
+@media (hover: hover) {
+  .band--wine .button--outline:hover { border-color: var(--on-dark); background: transparent; }
+  .closing .button--gold:hover { background: var(--gold); color: var(--wine); }
+}
+
+/* ---------- 22. Preferências do sistema ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 
@@ -1298,63 +1403,11 @@ body.legal-page .site-footer { padding-bottom: 60px; }
 }
 
 @media print {
-  body { background: #fff; color: #000; }
   body::after,
   .site-header,
   .mobile-bar,
-  .hero-media,
+  .wa-float,
   .closing { display: none; }
 
   .js .reveal { opacity: 1; transform: none; }
 }
-
-/* ---------- 21. Utilitários de composição ---------- */
-.section-action { margin: 42px 0 0; }
-.tags--start { justify-content: flex-start; margin-top: 36px; }
-.band--contact { padding-top: calc(var(--header-h) + 64px); }
-
-.band--light .text-link { color: #96685a; }
-.band--light .tags span { border-color: rgba(36, 26, 22, .22); color: #5c463f; }
-.band--light .themes,
-.band--light .themes article { border-color: rgba(36, 26, 22, .14); }
-.band--light h2,
-.band--light h3 { color: #241a16; }
-
-@media (min-width: 960px) {
-  .section-action { margin-top: 52px; }
-}
-
-/* ---------- 22. Faixa clara: correções de contraste ----------
-   Regras como `.feature-copy > p` têm a mesma especificidade de
-   `.band--light p` e, por virem depois no arquivo, venciam — o texto
-   ficava creme sobre creme, ou seja, invisível. Este bloco fecha o tema
-   claro por último, garantindo a inversão de todas as cores de texto. */
-.band--light .feature-copy > p,
-.band--light .statement-note,
-.band--light .themes p,
-.band--light .step p,
-.band--light .lede,
-.band--light li,
-.band--light p { color: #5c463f; }
-
-.band--light h1,
-.band--light h2,
-.band--light h3,
-.band--light strong { color: #241a16; }
-
-.band--light .eyebrow,
-.band--light .text-link,
-.band--light .themes span,
-.band--light .step b { color: #96685a; }
-
-.band--light .pull {
-  border-top-color: rgba(36, 26, 22, .18);
-  color: var(--wine);
-}
-
-.band--light .themes,
-.band--light .themes article,
-.band--light .ledger,
-.band--light .ledger-item { border-color: rgba(36, 26, 22, .14); }
-
-.band--light .feature-media::after { box-shadow: inset 0 0 0 1px rgba(36, 26, 22, .16); }
