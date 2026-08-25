@@ -835,7 +835,10 @@ p { text-wrap: pretty; }
   box-shadow: var(--shadow-s);
 }
 
-.field { margin-bottom: 26px; }
+.field {
+  display: block;
+  margin-bottom: 36px;
+}
 
 .field > span,
 .lead-form legend {
