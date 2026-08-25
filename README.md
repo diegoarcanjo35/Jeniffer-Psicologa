@@ -148,3 +148,5 @@ palavra "psicóloga" e o CRP aparecem em todas as páginas; não há preço como
 propaganda, promessa de resultado, depoimento de paciente nem título ainda não
 concluído anunciado como especialização. O formulário coleta dado de saúde
 (categoria especial da LGPD) com consentimento explícito e desmarcado por padrão.
+
+Reconect Claudflare
