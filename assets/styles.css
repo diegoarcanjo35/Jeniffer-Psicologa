@@ -990,6 +990,13 @@ p { text-wrap: pretty; }
   line-height: 1.16;
 }
 
+.closing .closing-whatsapp {
+  display: flex;
+  width: fit-content;
+  margin: 18px auto 0;
+  color: var(--gold);
+}
+
 .site-footer {
   padding: 60px 0 100px;
   background: var(--deep);
