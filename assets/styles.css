@@ -405,8 +405,11 @@ p { text-wrap: pretty; }
 .main-nav {
   position: fixed;
   z-index: 99;
-  inset: 0;
+  inset: 0 0 auto;
+  height: 100vh;
+  height: 100dvh;
   display: flex;
+  overflow-y: auto;
   visibility: hidden;
   flex-direction: column;
   justify-content: center;
@@ -1180,6 +1183,8 @@ body.legal-page .site-footer { padding-bottom: 60px; }
 
   .main-nav {
     position: static;
+    height: auto;
+    overflow: visible;
     display: flex;
     visibility: visible;
     flex-direction: row;
