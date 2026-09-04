@@ -1,0 +1,5 @@
+# Future analytics configuration (keep all values empty/false today)
+PUBLIC_ANALYTICS_ENABLED=false
+PUBLIC_GA_ID=
+PUBLIC_GTM_ID=
+PUBLIC_META_PIXEL_ID=
